@@ -10,19 +10,32 @@ If you like, you make create simple functions for these, but this is not needed.
 import json
 from datetime import datetime
 import os
-from users import get_user
-from items import get_item
 
+def default_get_user(user_id):
+    """
+    Default dependency for fetching user. 
+    Delayed import
+    """
+    from users import get_user
+    return get_user(user_id)
 
-def create_user_order(user_id: int, item_id: int) -> dict:
+def default_get_item(item_id):
+    """
+    Default dependency for fetching item. 
+    Delayed import
+    """
+    from items import get_item
+    return get_item(item_id)
+
+def create_user_order(user_id: int, item_id: int, get_user_fn=default_get_user, get_item_fn=default_get_item) -> dict:
     """Fetch a user, fetch an item, apply a discount if the user
     is a premium member, and write the order to a file."""
 
     # Call user module
-    user = get_user(user_id)
+    user = get_user_fn(user_id)
 
     # Call item module
-    item = get_item(item_id)
+    item = get_item_fn(item_id)
 
     price = item["price"]
 
