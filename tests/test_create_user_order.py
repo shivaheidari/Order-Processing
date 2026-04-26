@@ -13,10 +13,10 @@ def fake_get_item(item_id):
 def test_create_user_order():
     m_open = mock_open()
     
-    with patch("builtins.open", m_open):
+    with patch("builtins.open", m_open), patch("os.makedirs"):
         result = create_user_order(1, 1, get_user_fn=fake_get_user, get_item_fn=fake_get_item)
-        handle = m_open()
-        handle.write.assert_called()
+
+    m_open.return_value.write.assert_called()
 
     assert result["user_id"] == 1
     assert result["item_id"] == 1

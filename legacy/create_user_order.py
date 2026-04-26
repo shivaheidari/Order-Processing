@@ -12,7 +12,7 @@ from datetime import datetime
 import os
 from app.domain.pricing import calculate_price
 from app.domain.order import build_order
-from app.infrastructure.file_writer import save_order
+from app.infrastructure.file_writer import FileWriter
 
 def default_get_user(user_id):
     """
@@ -44,6 +44,7 @@ def create_user_order(user_id: int, item_id: int, get_user_fn=default_get_user, 
     
     order = build_order(user_id, item_id, price)
 
-    save_order(order, os.getcwd())
+    writer = FileWriter(os.getcwd())
+    writer.save(order)
     
     return order

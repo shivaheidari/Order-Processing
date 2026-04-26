@@ -1,7 +1,8 @@
 import json
+import os
 from unittest.mock import mock_open
 
-from app.infrastructure.file_writer import save_order
+from app.infrastructure.file_writer import FileWriter
 
 
 def test_save_order(monkeypatch):
@@ -13,8 +14,10 @@ def test_save_order(monkeypatch):
 
     m = mock_open()
     monkeypatch.setattr("builtins.open", m)
+    monkeypatch.setattr(os, "makedirs", lambda path, exist_ok: None)
 
-    save_order(order, "/fake/path")
+    writer = FileWriter("/fake/path")
+    writer.save(order)
 
     m.assert_called_once()
 

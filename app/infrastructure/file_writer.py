@@ -1,14 +1,15 @@
 import json
 import os
+from app.infrastructure.writer import OrderWriter
+from app.infrastructure.path_builder import build_order_path
 
-def save_order(order, base_path):
-    """
-    store the order to filesystem as JSON file
-    """
-    log_path = os.path.join(
-        base_path, 
-        "orders",
-        f"order_{order['user_id']}_{'item_id'}.json"
-    )
-    with open(log_path, "w") as f:
-        json.dump(order, f)
+class FileWriter(OrderWriter):
+    def __init__(self, base_path: str):
+        self.base_path = base_path
+
+    def save(self, order: dict):
+        log_path = build_order_path(order, self.base_path)
+        
+        os.makedirs(os.path.dirname(log_path), exist_ok=True)
+        with open(log_path, "w") as f:
+            json.dump(order, f)
