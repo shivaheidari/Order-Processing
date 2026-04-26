@@ -1,13 +1,14 @@
 from app.services.order_service import OrderService
 
 
-def fake_user(user_id):
-    return {"membership": "premium"}
+class FakeUserProvider:
+    def get_user(self, user_id):
+        return {"membership": "premium"}
 
 
-def fake_item(item_id):
-    return {"price": 100}
-
+class FakeItemProvider:
+    def get_item(self, item_id):
+        return {"price": 100}
 
 class FakeWriter:
     def __init__(self):
@@ -18,9 +19,11 @@ class FakeWriter:
 
 
 def test_create_order():
+    user_provider = FakeUserProvider()
+    item_provider = FakeItemProvider()
     writer = FakeWriter()
 
-    service = OrderService(fake_user, fake_item, writer)
+    service = OrderService(user_provider, item_provider, writer)
 
     result = service.create_order(1, 1)
 
