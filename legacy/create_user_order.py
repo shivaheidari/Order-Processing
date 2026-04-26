@@ -11,6 +11,8 @@ import json
 from datetime import datetime
 import os
 from app.domain.pricing import calculate_price
+from app.domain.order import build_order
+
 
 def default_get_user(user_id):
     """
@@ -39,13 +41,8 @@ def create_user_order(user_id: int, item_id: int, get_user_fn=default_get_user, 
     item = get_item_fn(item_id)
 
     price = calculate_price(item["price"], user.get("membership"))
-
-    order = {
-        "user_id": user_id,
-        "item_id": item_id,
-        "final_price": round(price, 2),
-        "timestamp": datetime.now().isoformat(),
-    }
+    
+    order = build_order(user_id, item_id, price)
 
     # store the order
     log_path = os.path.join(os.getcwd(), "orders", f"order_{user_id}_{item_id}.json")
