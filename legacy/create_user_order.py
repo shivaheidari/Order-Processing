@@ -12,7 +12,7 @@ from datetime import datetime
 import os
 from app.domain.pricing import calculate_price
 from app.domain.order import build_order
-
+from app.infrastructure.file_writer import save_order
 
 def default_get_user(user_id):
     """
@@ -45,8 +45,9 @@ def create_user_order(user_id: int, item_id: int, get_user_fn=default_get_user, 
     order = build_order(user_id, item_id, price)
 
     # store the order
-    log_path = os.path.join(os.getcwd(), "orders", f"order_{user_id}_{item_id}.json")
-    with open(log_path, "w") as f:
-        json.dump(order, f)
+    # log_path = os.path.join(os.getcwd(), "orders", f"order_{user_id}_{item_id}.json")
+    # with open(log_path, "w") as f:
+    #     json.dump(order, f)
+    save_order(order, os.getcwd())
 
     return order
