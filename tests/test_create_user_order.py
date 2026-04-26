@@ -18,7 +18,7 @@ def test_create_user_order():
 
     m_open.return_value.write.assert_called()
 
-    assert result["user_id"] == 1
-    assert result["item_id"] == 1
-    assert result["final_price"] == 80.0
-    assert "timestamp" in result
+    assert result.user_id == 1
+    assert result.item_id == 1
+    assert result.final_price == 80.0
+    assert isinstance(result.timestamp, str)

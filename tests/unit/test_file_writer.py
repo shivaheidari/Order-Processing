@@ -3,14 +3,16 @@ import os
 from unittest.mock import mock_open
 
 from app.infrastructure.file_writer import FileWriter
+from app.domain.order import Order
 
 
 def test_save_order(monkeypatch):
-    order = {
-        "user_id": 1,
-        "item_id": 2,
-        "final_price": 80.0,
-    }
+    order = Order(
+        user_id=1,
+        item_id=2,
+        final_price=80.0,
+        timestamp="2024-01-01T00:00:00",
+    )
 
     m = mock_open()
     monkeypatch.setattr("builtins.open", m)
@@ -29,3 +31,4 @@ def test_save_order(monkeypatch):
     assert parsed["user_id"] == 1
     assert parsed["item_id"] == 2
     assert parsed["final_price"] == 80.0
+    assert "timestamp" in parsed
