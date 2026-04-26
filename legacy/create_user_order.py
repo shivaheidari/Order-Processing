@@ -10,6 +10,7 @@ If you like, you make create simple functions for these, but this is not needed.
 import json
 from datetime import datetime
 import os
+from app.domain.pricing import calculate_price
 
 def default_get_user(user_id):
     """
@@ -37,10 +38,7 @@ def create_user_order(user_id: int, item_id: int, get_user_fn=default_get_user, 
     # Call item module
     item = get_item_fn(item_id)
 
-    price = item["price"]
-
-    if user.get("membership") == "premium":
-        price *= 0.80
+    price = calculate_price(item["price"], user.get("membership"))
 
     order = {
         "user_id": user_id,
