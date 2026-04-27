@@ -9,10 +9,10 @@ class Order:
     timestamp: str
 
 
-def build_order(user_id, item_id, final_price):
+def build_order(user_id, item_id, final_price, timestamp=None):
     return Order(
         user_id=user_id,
         item_id=item_id,
         final_price=final_price,
-        timestamp=datetime.now().isoformat(),
+        timestamp=timestamp or datetime.now().isoformat(),
     )

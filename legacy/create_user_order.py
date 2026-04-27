@@ -8,7 +8,6 @@ If you like, you make create simple functions for these, but this is not needed.
 """
 
 import json
-from datetime import datetime
 import os
 from app.domain.pricing import calculate_price
 from app.domain.order import build_order
