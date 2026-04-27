@@ -6,7 +6,7 @@ from dataclasses import dataclass
 class AppConfig:
     """Central configuration object for the application."""
     base_path: str
-    
+
 
 def load_config() -> AppConfig:
     """

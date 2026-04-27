@@ -5,11 +5,13 @@ from app.config import load_config
 
 app = Flask(__name__)
 
+
 def fake_user_provider():
     class Provider:
         def get_user(self, user_id):
             return {"membership": "premium"}
     return Provider()
+
 
 def fake_item_provider():
     class Provider:

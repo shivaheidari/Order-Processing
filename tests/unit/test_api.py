@@ -1,5 +1,6 @@
 from app.presentation.api import app
 
+
 def test_create_order_success():
     client = app.test_client()
 
@@ -12,6 +13,7 @@ def test_create_order_success():
     assert data["item_id"] == 1
     assert data["final_price"] == 80.0
     assert "timestamp" in data
+
 
 def test_create_order_invalid():
     client = app.test_client()

@@ -10,6 +10,7 @@ class FakeItemProvider:
     def get_item(self, item_id):
         return {"price": 100}
 
+
 class FakeWriter:
     def __init__(self):
         self.saved = None
