@@ -5,6 +5,7 @@ from dataclasses import asdict
 from app.infrastructure.writer import OrderWriter
 from app.infrastructure.path_builder import build_order_path
 from app.domain.order import Order
+from app.exceptions import OrderPersistenceError
 
 
 class FileWriter(OrderWriter):
@@ -22,4 +23,4 @@ class FileWriter(OrderWriter):
                 json.dump(asdict(order), f)
 
         except OSError as e:
-            raise RuntimeError("Failed to persist order to file system") from e
+            raise OrderPersistenceError("Failed to persist order to file system") from e

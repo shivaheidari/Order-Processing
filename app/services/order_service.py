@@ -7,6 +7,7 @@ business logic for creating and saving user orders.
 
 from app.domain.pricing import calculate_price
 from app.domain.order import build_order, Order
+from app.exceptions import ProviderDataError
 from typing import Callable, Dict, Optional, Any
 
 class OrderService:
@@ -28,10 +29,13 @@ class OrderService:
         user = self.user_provider.get_user(user_id)
         item = self.item_provider.get_item(item_id)
         
-        price = calculate_price(
-            item["price"],
-            user.get("membership", "standard")
-        )
+        try:
+            price = calculate_price(
+                item["price"],
+                user.get("membership", "standard")
+            )
+        except (KeyError, TypeError) as e:
+            raise ProviderDataError("Failed to extract expected data from providers") from e
 
         order = build_order(user_id, item_id, price)
 
