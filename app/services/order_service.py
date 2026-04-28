@@ -8,19 +8,25 @@ business logic for creating and saving user orders.
 from app.domain.pricing import calculate_price
 from app.domain.order import build_order, Order
 from app.exceptions import ProviderDataError
-from typing import Callable, Dict, Optional, Any
+from app.infrastructure.providers import UserProvider, ItemProvider
+from app.infrastructure.writer import OrderWriter
 
 class OrderService:
     """
     Service class to handle operations related to user orders.
 
     Attributes:
-        user_provider (Callable): A callable to retrieve user details by user ID.
-        item_provider (Callable): A callable to retrieve item details by item ID.
-        writer (Any): The order writer dependency used to save the order.
+        user_provider (UserProvider): A provider to retrieve user details by user ID.
+        item_provider (ItemProvider): A provider to retrieve item details by item ID.
+        writer (OrderWriter): The order writer dependency used to save the order.
     """
 
-    def __init__(self, user_provider, item_provider, writer):
+    def __init__(
+        self,
+        user_provider: UserProvider,
+        item_provider: ItemProvider,
+        writer: OrderWriter,
+    ) -> None:
         self.user_provider = user_provider
         self.item_provider = item_provider
         self.writer = writer
